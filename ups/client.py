@@ -56,7 +56,7 @@ class FixRequestNamespacePlug(MessagePlugin):
 
 class UPSClient(object):
 
-    def __init__(self, credentials, weight_unit='KGS', dimension_unit='CM', currency_code='USD', debug=True):
+    def __init__(self, credentials, weight_unit='KGS', dimension_unit='CM', currency_code='USD', debug=True, is_production=False):
         this_dir = os.path.dirname(os.path.realpath(__file__))
         self.wsdl_dir = os.path.join(this_dir, 'wsdl')
         self.credentials = credentials
@@ -64,6 +64,7 @@ class UPSClient(object):
         self.dimension_unit = dimension_unit
         self.currency_code = currency_code
         self.debug = debug
+        self.is_production = is_production
 
     def _add_security_header(self, client):
         security_ns = ('upss', 'http://www.ups.com/XMLSchema/XOLTWS/UPSS/v1.0')
@@ -175,8 +176,8 @@ class UPSClient(object):
         return shipment
 
     def rate(self, packages, shipper, recipient, packaging_type):
-
-        client = self._get_client('RateWS.wsdl')
+        wsdl = self.is_production 'RateWS.wsdl' else 'RateWS_dev.wsdl'
+        client = self._get_client(wsdl)
         self._add_security_header(client)
         client.set_options(location='https://onlinetools.ups.com/webservices/Rate')
 
