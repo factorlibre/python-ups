@@ -176,7 +176,7 @@ class UPSClient(object):
         return shipment
 
     def rate(self, packages, shipper, recipient, packaging_type):
-        wsdl = self.is_production 'RateWS.wsdl' else 'RateWS_dev.wsdl'
+        wsdl = 'RateWS.wsdl' if self.is_production else 'RateWS_dev.wsdl'
         client = self._get_client(wsdl)
         self._add_security_header(client)
         client.set_options(location='https://onlinetools.ups.com/webservices/Rate')
