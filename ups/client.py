@@ -42,8 +42,8 @@ class UPSError(Exception):
         self.fault = fault
         self.document = document
 
-        code = self.document.childAtPath('/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText()
-        text = self.document.childAtPath('/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText()
+        code = self.document.childAtPath('/Envelope/Body/Fault/detail/Errors/ErrorDetail/PrimaryErrorCode/Code').getText()
+        text = self.document.childAtPath('/Envelope/Body/Fault/detail/Errors/ErrorDetail/PrimaryErrorCode/Description').getText()
         error_text = 'UPS Error %s: %s' % (code, text)
 
         super(UPSError, self).__init__(error_text)
